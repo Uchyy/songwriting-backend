@@ -1,0 +1,98 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bitcount+Grid+Double+Ink:wght@100..900&family=Bitcount:wght@100..900&family=Black+Ops+One&family=Dancing+Script:wght@400..700&family=Edu+VIC+WA+NT+Hand:wght@400..700&family=Germania+One&family=League+Gothic&family=Lora:ital,wght@0,400..700;1,400..700&family=M+PLUS+U:wght@100..900&family=Mozilla+Headline:wght@200..700&family=Qahiri&family=Unica+One&display=swap');
+
+@import "tailwindcss";
+
+/* BRAND THEME */
+@theme {
+  /* Colours */
+  --color-cream: #F6F0E6;
+  --color-ivory: #FFFCF7;
+  --color-gold: #D6B477;
+  --color-gold-muted: #A68B65;
+  --color-beige: #E9DFD0;
+  --color-espresso: #30251F;
+  --color-espresso-light: #493A31;
+
+  /* Typography */
+  --font-display: "Lora", serif;
+  --font-body: "Mozilla Headline", sans-serif;
+  --font-label: "Unica One", sans-serif;
+  --font-germania:  "Germania One", sans-serif;
+  --font-script: "Dancing Script", cursive;
+
+  /* Custom shadows */
+  --shadow-soft: 0 8px 30px rgb(48 37 31 / 8%);
+}
+
+/* GLOBAL STYLES */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    font-family: var(--font-body);
+    margin: 0;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
+  button, a {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-espresso);
+  }
+}
+
+.wavy-border {
+  --wave-height: 15px;
+  --wave-color: var(--color-cream);
+
+  position: relative;
+  isolation: isolate;
+}
+
+.wavy-border::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--wave-height);
+  background: var(--wave-color);
+  z-index: 10;
+  pointer-events: none;
+
+  clip-path: polygon(
+    0 50%, 2.5% 40%, 5% 37%, 7.5% 41%, 10% 49%,
+    12.5% 57%, 15% 62%, 17.5% 62%, 20% 54%,
+    22.5% 41%, 25% 30%, 27.5% 21%, 30% 17%,
+    32.5% 17%, 35% 21%, 37.5% 30%, 40% 41%,
+    42.5% 54%, 45% 66%, 47.5% 76%, 50% 82%,
+    52.5% 84%, 55% 81%, 57.5% 73%, 60% 63%,
+    62.5% 50%, 65% 37%, 67.5% 27%, 70% 19%,
+    72.5% 16%, 75% 18%, 77.5% 24%, 80% 34%,
+    82.5% 46%, 85% 59%, 87.5% 70%, 90% 79%,
+    92.5% 83%, 95% 82%, 97.5% 71%, 100% 50%,
+    100% 100%, 0 100%
+  );
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
