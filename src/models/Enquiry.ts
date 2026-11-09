@@ -1,4 +1,4 @@
-export type EnquiryStatus = "NEW" | "RESPONDED" | "IN_PROGRESS" | "CLOSED    ";
+export type EnquiryStatus = "NEW" | "RESPONDED" | "IN_PROGRESS" | "CLOSED";
 
 export interface Enquiry {
   id: string;

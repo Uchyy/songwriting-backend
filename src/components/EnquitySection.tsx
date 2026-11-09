@@ -1,28 +1,36 @@
+import { useState } from "react";
+import { updateEnquiryStatus } from "../api.ts/EnquiryService";
 import type { Enquiry } from "../models/Enquiry";
+import { Mail, MoreHorizontal, Check } from "lucide-react";
+import EnquiryStatusMenu from "./EnquiryStatusMenu";
 
 
 interface EnquiriesListProps {
   enquiries: Enquiry[];
 }
 
+const statusOrder = {
+  NEW: 1,
+  IN_PROGRESS: 2,
+  RESPONDED: 3,
+  CLOSED: 4,
+};
+
 function EnquiriesList({ enquiries }: EnquiriesListProps) {
   const newCount = enquiries.filter( (enquiry) => enquiry.status === "NEW").length;
+  const [enquiriesState, setEnquiries] = useState<Enquiry[]>(enquiries);
 
   return (
     <section className="space-y-5">
       <div className="flex items-center justify-between">
-        <div>
           <h2 className="font-display text-2xl">Enquiries</h2>
            <span className="rounded-full bg-gold/20 px-3 py-1 text-sm text-espresso">
                 {newCount} new
-            </span>
-        </div>
-
-       
+            </span>   
       </div>
 
       <div className="divide-y divide-beige border-y border-beige bg-white/90 p-5">
-        {enquiries.map((enquiry) => (
+        {enquiries.sort((a, b) => (statusOrder[a.status] || 0) - (statusOrder[b.status] || 0)).map((enquiry) => (
           <article
             key={enquiry.id}
             className="py-2"  >
@@ -38,12 +46,8 @@ function EnquiriesList({ enquiries }: EnquiriesListProps) {
 
               <span
                 className={`rounded-full px-3 py-1 text-xs ${
-                  enquiry.status === "NEW"
-                    ? "bg-gold/20 text-espresso"
-                    : "bg-beige text-espresso-light"
-                }`}
-              >
-                {enquiry.status === "NEW" ? "New" : "Responded"}
+                  enquiry.status === "NEW" ? "bg-gold/20 text-espresso" : "bg-beige text-espresso-light" }`}>
+                {enquiry.status.replace("_", " ").toLowerCase()}
               </span>
             </div>
 
@@ -55,16 +59,28 @@ function EnquiriesList({ enquiries }: EnquiriesListProps) {
               {enquiry.message}
             </p>
 
-            <div className="mt-3 flex justify-end">
-              <a
-                href={`mailto:${enquiry.email}?subject=${encodeURIComponent(
-                  `Re: ${enquiry.subject}`
-                )}`}
-                className="font-label text-sm text-gold-muted underline-offset-4 hover:underline"
-              >
-                Respond →
-              </a>
-            </div>
+            <div className="mt-3 flex items-center justify-end gap-2">
+                <a
+                    href={`mailto:${enquiry.email}?subject=${encodeURIComponent(
+                    `Re: ${enquiry.subject}`
+                    )}`}
+                    title="Reply to enquiry"
+                    className="rounded-md p-2 text-espresso-light hover:bg-beige"
+                >
+                    <Mail size={17} />
+                </a>
+
+                <EnquiryStatusMenu
+                    enquiry={enquiry}
+                    onUpdate={(updated) =>
+                    setEnquiries((previous) =>
+                        previous.map((item) =>
+                        item.id === updated.id ? updated : item
+                        )
+                    )
+                    }
+                />
+                </div>
           </article>
         ))}
 
