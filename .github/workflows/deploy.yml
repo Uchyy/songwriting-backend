@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: backend-pages
+  group: admin-dashboard-deployment
   cancel-in-progress: true
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
       - name: Upload admin build
         uses: actions/upload-pages-artifact@v3
         with:
-          name: backend-pages
+          name: admin-dashboard-build
           path: ./dist
 
   deploy:
@@ -64,4 +64,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: backend-pages
+          artifact_name: admin-dashboard-build
